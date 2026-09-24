@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Utilería</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Iniciar Sesión</h2>
+        <form id="loginForm">
+            <label>Correo Electrónico:</label>
+            <input type="email" id="correo" required>
+            
+            <label>Contraseña:</label>
+            <input type="password" id="password" required>
+            <small>Debe tener 8+ caracteres, mayúscula, minúscula, número y símbolo especial.</small>
+            
+            <button type="submit">Ingresar</button>
+        </form>
+        <p id="mensajeLogin"></p>
+        <p><a href="index.html">Volver al Registro</a></p>
+    </div>
+
+    <script src="js/utileria.js"></script>
+    <script>
+        document.getElementById("loginForm").addEventListener('submit', function(e) {
+            e.preventDefault();
+            const correo = document.getElementById("correo").value;
+            const password = document.getElementById("password").value;
+            const mensaje = document.getElementById("mensajeLogin");
+
+            if (!validarCorreo(correo)) {
+                mensaje.innerHTML = "❌ Formato de correo inválido.";
+                mensaje.style.color = "red";
+                return;
+            }
+
+            if (!validarPassword(password)) {
+                mensaje.innerHTML = "❌ La contraseña no cumple con los requisitos de seguridad.";
+                mensaje.style.color = "red";
+                return;
+            }
+
+            mensaje.innerHTML = "✅ Login exitoso. Validaciones superadas.";
+            mensaje.style.color = "green";
+        });
+    </script>
+</body>
+</html>

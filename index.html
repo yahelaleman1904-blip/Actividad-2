@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Utilería</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Registro de Usuario</h2>
+        <form id="registroForm">
+            <label>Nombre Completo (solo letras):</label>
+            <input type="text" id="nombre" required>
+            
+            <label>Fecha de Nacimiento:</label>
+            <input type="date" id="fechaNac" required>
+            
+            <button type="submit">Calcular y Validar</button>
+        </form>
+        <p><a href="login.html">Ir al Login</a></p>
+    </div>
+
+    <!-- Estructura del Modal -->
+    <div id="miModal" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar">&times;</span>
+            <h3>Resultado del Registro</h3>
+            <p id="mensajeModal"></p>
+        </div>
+    </div>
+
+    <script src="js/utileria.js"></script>
+    <script>
+        const modal = document.getElementById("miModal");
+        const spanCerrar = document.getElementsByClassName("cerrar")[0];
+        const form = document.getElementById("registroForm");
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            let nombre = document.getElementById("nombre").value;
+            const fechaNac = document.getElementById("fechaNac").value;
+            
+            // Uso de función libre
+            nombre = limpiarEspacios(nombre);
+
+            if (!soloLetras(nombre)) {
+                alert("El nombre solo debe contener letras.");
+                return;
+            }
+
+            const edad = calcularEdad(fechaNac);
+            const esMayor = esMayorDeEdad(fechaNac);
+            
+            const mensaje = `Hola ${nombre}.<br>Tienes <strong>${edad} años</strong>.<br>` + 
+                            (esMayor ? "Eres mayor de edad. Acceso permitido." : "Eres menor de edad. Acceso restringido.");
+            
+            document.getElementById("mensajeModal").innerHTML = mensaje;
+            modal.style.display = "block";
+        });
+
+        spanCerrar.onclick = function() { modal.style.display = "none"; }
+        window.onclick = function(event) { if (event.target == modal) modal.style.display = "none"; }
+    </script>
+</body>
+</html>
