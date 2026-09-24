@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Utilería</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Registro de Usuario</h2>
+        <form id="registroForm" novalidate>
+            <label for="nombre">Nombre Completo (solo letras):</label>
+            <input type="text" id="nombre" placeholder="Ej. Juan Perez" required>
+            
+            <label for="fechaNac">Fecha de Nacimiento:</label>
+            <input type="date" id="fechaNac" required>
+            
+            <div id="errorContainerRegistro" class="error-container" style="display: none;">
+                <img src="img/para_error.jpg" alt="Error en registro" class="error-img">
+                <div class="error-bubble" id="textoErrorRegistro">
+                    ❌ Error: El nombre ingresado no es válido.
+                </div>
+            </div>
+
+            <button type="submit">Calcular y Validar</button>
+        </form>
+        <p><a href="index.html">Volver al Login</a></p>
+    </div>
+
+    <!-- Modal -->
+    <div id="miModal" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar">&times;</span>
+            <h3>Resultado del Registro</h3>
+            <p id="mensajeModal"></p>
+        </div>
+    </div>
+
+    <script src="js/utileria.js"></script>
+    <script>
+        const modal = document.getElementById("miModal");
+        const spanCerrar = document.getElementsByClassName("cerrar")[0];
+        const form = document.getElementById("registroForm");
+        const nombreInput = document.getElementById("nombre");
+        const errorContainerRegistro = document.getElementById("errorContainerRegistro");
+        const textoErrorRegistro = document.getElementById("textoErrorRegistro");
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            let nombre = nombreInput.value;
+            const fechaNac = document.getElementById("fechaNac").value;
+            
+            errorContainerRegistro.style.display = "none";
+            nombreInput.classList.remove("input-error");
+            
+            nombre = limpiarEspacios(nombre);
+
+            if (!nombre || !soloLetras(nombre)) {
+                textoErrorRegistro.innerHTML = "❌ Error: El nombre solo debe contener letras (no números).";
+                errorContainerRegistro.style.display = "flex";
+                nombreInput.classList.add("input-error");
+                return;
+            }
+
+            if (!fechaNac) {
+                textoErrorRegistro.innerHTML = "❌ Error: Por favor ingresa tu fecha de nacimiento.";
+                errorContainerRegistro.style.display = "flex";
+                return;
+            }
+
+            // Uso de la edad obligatoria y la exacta
+            const edadEntera = calcularEdad(fechaNac); 
+            const edadCompleta = calcularEdadExacta(fechaNac); 
+            const esMayor = esMayorDeEdad(fechaNac);
+            
+            const mensaje = `Hola ${nombre}.<br>Tienes exactamente <strong>${edadCompleta}</strong>.<br><br>` + 
+                            (esMayor ? "✅ Eres mayor de edad. Acceso permitido." : "❌ Eres menor de edad. Acceso restringido.");
+            
+            document.getElementById("mensajeModal").innerHTML = mensaje;
+            modal.style.display = "block";
+        });
+
+        spanCerrar.onclick = function() { modal.style.display = "none"; }
+        window.onclick = function(event) { if (event.target == modal) modal.style.display = "none"; }
+    </script>
+</body>
+</html>
