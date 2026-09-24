@@ -9,13 +9,21 @@
 <body>
     <div class="container">
         <h2>Registro de Usuario</h2>
-        <form id="registroForm">
-            <label>Nombre Completo (solo letras):</label>
-            <input type="text" id="nombre" required>
+        <form id="registroForm" novalidate>
+            <label for="nombre">Nombre Completo (solo letras):</label>
+            <input type="text" id="nombre" placeholder="Ej. Juan Perez" required>
             
-            <label>Fecha de Nacimiento:</label>
+            <label for="fechaNac">Fecha de Nacimiento:</label>
             <input type="date" id="fechaNac" required>
             
+            <!-- Contenedor del error con la imagen del muñequito (Oculto por defecto) -->
+            <div id="errorContainerRegistro" class="error-container" style="display: none;">
+                <img src="img/para_error.jpg" alt="Error en registro" class="error-img">
+                <div class="error-bubble" id="textoErrorRegistro">
+                    ❌ Error: El nombre ingresado no es válido.
+                </div>
+            </div>
+
             <button type="submit">Calcular y Validar</button>
         </form>
         <p><a href="login.html">Ir al Login</a></p>
@@ -35,21 +43,41 @@
         const modal = document.getElementById("miModal");
         const spanCerrar = document.getElementsByClassName("cerrar")[0];
         const form = document.getElementById("registroForm");
+        
+        // Elementos para el error
+        const nombreInput = document.getElementById("nombre");
+        const errorContainerRegistro = document.getElementById("errorContainerRegistro");
+        const textoErrorRegistro = document.getElementById("textoErrorRegistro");
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            let nombre = document.getElementById("nombre").value;
+            let nombre = nombreInput.value;
             const fechaNac = document.getElementById("fechaNac").value;
             
-            // Uso de función libre
+            // 1. Limpiar estados de error antes de volver a validar
+            errorContainerRegistro.style.display = "none";
+            nombreInput.classList.remove("input-error");
+            
+            // Uso de función libre para limpiar espacios extra
             nombre = limpiarEspacios(nombre);
 
-            if (!soloLetras(nombre)) {
-                alert("El nombre solo debe contener letras.");
+            // 2. Validar nombre vacío o con números
+            if (!nombre || !soloLetras(nombre)) {
+                textoErrorRegistro.innerHTML = "❌ Error: El nombre solo debe contener letras (no números ni símbolos).";
+                errorContainerRegistro.style.display = "flex"; // Muestra el muñequito
+                nombreInput.classList.add("input-error");      // Pinta el borde rojo
+                return; // Detiene la ejecución para que no salga el modal
+            }
+
+            // 3. Validar que la fecha no esté vacía
+            if (!fechaNac) {
+                textoErrorRegistro.innerHTML = "❌ Error: Por favor ingresa tu fecha de nacimiento.";
+                errorContainerRegistro.style.display = "flex";
                 return;
             }
 
+            // Si todo está correcto, calcula la edad y muestra el modal
             const edad = calcularEdad(fechaNac);
             const esMayor = esMayorDeEdad(fechaNac);
             
@@ -60,6 +88,7 @@
             modal.style.display = "block";
         });
 
+        // Cerrar el modal
         spanCerrar.onclick = function() { modal.style.display = "none"; }
         window.onclick = function(event) { if (event.target == modal) modal.style.display = "none"; }
     </script>
