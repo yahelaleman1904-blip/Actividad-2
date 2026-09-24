@@ -14,9 +14,21 @@
             <input type="email" id="correo" required>
             
             <label>Contraseña:</label>
-            <input type="password" id="password" required>
+            <!-- Contenedor relativo para el ojo -->
+            <div class="password-wrapper">
+                <input type="password" id="password" required>
+                <span class="toggle-password" id="togglePassword">👁️</span>
+            </div>
             <small>Debe tener 8+ caracteres, mayúscula, minúscula, número y símbolo especial.</small>
             
+            <!-- Contenedor del error con la imagen (Oculto por defecto) -->
+            <div id="errorContainer" class="error-container" style="display: none;">
+                <img src="img/para error.jpg" alt="Error de contraseña" class="error-img">
+                <div class="error-bubble">
+                    ❌ Error: La contraseña no cumple con *todos* los requisitos detallados. Revisa la ayuda a la izquierda.
+                </div>
+            </div>
+
             <button type="submit">Ingresar</button>
         </form>
         <p id="mensajeLogin"></p>
@@ -25,11 +37,30 @@
 
     <script src="js/utileria.js"></script>
     <script>
+        // Lógica para mostrar/ocultar contraseña
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function () {
+            // Alterna el tipo de input entre 'password' y 'text'
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            // Cambia el ícono (opcional, aquí usamos un ojo cerrado cuando se ve el texto)
+            this.textContent = type === 'password' ? '👁️' : '🙈';
+        });
+
+        // Lógica de validación al enviar el formulario
         document.getElementById("loginForm").addEventListener('submit', function(e) {
             e.preventDefault();
             const correo = document.getElementById("correo").value;
-            const password = document.getElementById("password").value;
+            const password = passwordInput.value;
             const mensaje = document.getElementById("mensajeLogin");
+            const errorContainer = document.getElementById("errorContainer");
+
+            // Reiniciamos los mensajes y bordes rojos cada vez que intentan ingresar
+            errorContainer.style.display = "none";
+            passwordInput.classList.remove("input-error");
+            mensaje.innerHTML = "";
 
             if (!validarCorreo(correo)) {
                 mensaje.innerHTML = "❌ Formato de correo inválido.";
@@ -38,8 +69,9 @@
             }
 
             if (!validarPassword(password)) {
-                mensaje.innerHTML = "❌ La contraseña no cumple con los requisitos de seguridad.";
-                mensaje.style.color = "red";
+                // Si falla, mostramos el contenedor con la imagen y pintamos el borde rojo
+                errorContainer.style.display = "flex";
+                passwordInput.classList.add("input-error");
                 return;
             }
 
