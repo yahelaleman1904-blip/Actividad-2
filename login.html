@@ -9,23 +9,24 @@
 <body>
     <div class="container">
         <h2>Iniciar Sesión</h2>
-        <form id="loginForm">
-            <label>Correo Electrónico:</label>
-            <input type="email" id="correo" required>
+        <form id="loginForm" novalidate>
+            <label for="correo">Correo Electrónico:</label>
+            <input type="email" id="correo" placeholder="correo@ejemplo.com">
+            <p id="errorCorreo" class="error-texto"></p>
             
-            <label>Contraseña:</label>
-            <!-- Contenedor relativo para el ojo -->
+            <label for="password">Contraseña:</label>
+            <!-- Contenedor del campo con el ojo -->
             <div class="password-wrapper">
-                <input type="password" id="password" required>
+                <input type="password" id="password" placeholder="Tu contraseña">
                 <span class="toggle-password" id="togglePassword">👁️</span>
             </div>
             <small>Debe tener 8+ caracteres, mayúscula, minúscula, número y símbolo especial.</small>
             
-            <!-- Contenedor del error con la imagen (Oculto por defecto) -->
+            <!-- Contenedor del error con la imagen del muñequito -->
             <div id="errorContainer" class="error-container" style="display: none;">
-                <img src="img/para error.jpg" alt="Error de contraseña" class="error-img">
+                <img src="img/para_error.jpg" alt="Error de contraseña" class="error-img">
                 <div class="error-bubble">
-                    ❌ Error: La contraseña no cumple con *todos* los requisitos detallados. Revisa la ayuda a la izquierda.
+                    ❌ Error: La contraseña no cumple con *todos* los requisitos detallados. Revisa la ayuda de arriba.
                 </div>
             </div>
 
@@ -37,46 +38,52 @@
 
     <script src="js/utileria.js"></script>
     <script>
-        // Lógica para mostrar/ocultar contraseña
         const togglePassword = document.getElementById('togglePassword');
         const passwordInput = document.getElementById('password');
 
+        // Mostrar / Ocultar contraseña
         togglePassword.addEventListener('click', function () {
-            // Alterna el tipo de input entre 'password' y 'text'
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
-            // Cambia el ícono (opcional, aquí usamos un ojo cerrado cuando se ve el texto)
             this.textContent = type === 'password' ? '👁️' : '🙈';
         });
 
-        // Lógica de validación al enviar el formulario
+        // Lógica al dar clic en Ingresar
         document.getElementById("loginForm").addEventListener('submit', function(e) {
             e.preventDefault();
+            
             const correo = document.getElementById("correo").value;
             const password = passwordInput.value;
             const mensaje = document.getElementById("mensajeLogin");
+            const errorCorreo = document.getElementById("errorCorreo");
             const errorContainer = document.getElementById("errorContainer");
 
-            // Reiniciamos los mensajes y bordes rojos cada vez que intentan ingresar
+            // Limpiar estados de error previos
             errorContainer.style.display = "none";
+            errorCorreo.textContent = "";
             passwordInput.classList.remove("input-error");
             mensaje.innerHTML = "";
 
+            let esValido = true;
+
+            // 1. Validar correo
             if (!validarCorreo(correo)) {
-                mensaje.innerHTML = "❌ Formato de correo inválido.";
-                mensaje.style.color = "red";
-                return;
+                errorCorreo.textContent = "❌ Ingresa un correo electrónico válido.";
+                esValido = false;
             }
 
+            // 2. Validar contraseña (Muestra el muñequito si falla)
             if (!validarPassword(password)) {
-                // Si falla, mostramos el contenedor con la imagen y pintamos el borde rojo
-                errorContainer.style.display = "flex";
+                errorContainer.style.display = "flex"; // Despliega la imagen y el globo de error
                 passwordInput.classList.add("input-error");
-                return;
+                esValido = false;
             }
 
-            mensaje.innerHTML = "✅ Login exitoso. Validaciones superadas.";
-            mensaje.style.color = "green";
+            // Si ambas validaciones pasan
+            if (esValido) {
+                mensaje.innerHTML = "✅ Login exitoso. Validaciones superadas.";
+                mensaje.style.color = "green";
+            }
         });
     </script>
 </body>
