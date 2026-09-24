@@ -1,7 +1,7 @@
 # Utilería JS - Herramientas de Validación Frontend
 
-**Autor:** [Tu Nombre Completo]
-**Materia/Clase:** [Nombre de tu materia o clase]
+**Autor:** Carlos Yahel Aleman Cruz
+**Materia/Clase:** Programacion Web
 
 ### ¿Qué problema resuelve esta librería?
 En el desarrollo web moderno, depender siempre de frameworks pesados para validar un simple formulario puede hacer que los sitios carguen lento. **Utilería JS** resuelve este problema ofreciendo una librería ligera, en JavaScript puro (Vanilla JS), que valida correos, fortalezas de contraseñas, calcula edades exactas y formatea textos (como nombres y teléfonos) al instante. Todo esto mejora la experiencia del usuario mostrando errores amigables antes de enviar los datos al servidor.
@@ -9,8 +9,7 @@ En el desarrollo web moderno, depender siempre de frameworks pesados para valida
 ---
 
 ## 🔗 Enlaces del Proyecto
-- **GitHub Pages (Sitio en Vivo):** [Pega aquí tu link terminación .github.io]
-- **Repositorio de GitHub:** [Pega aquí el link a tu repositorio]
+- **GitHub Pages (Sitio en Vivo):** https://yahelaleman1904-blip.github.io/Actividad-2/
 
 ---
 
@@ -90,19 +89,19 @@ console.log(formatearTelefono(telefono)); // Devuelve: "(551) 234-5678"
 
 A continuación se muestra el funcionamiento real de la librería aplicada en el frontend y consola:
 
-*(Nota: Sube tus capturas a tu carpeta del repositorio o arrástralas aquí en GitHub)*
+
 
 **1. Resultado del Registro en Consola / Modal:**
-![Captura del Modal calculando la edad](link_o_ruta_de_tu_imagen_modal.jpg)
+
 
 **2. Validación de Login y Contraseña Incorrecta:**
-![Captura del login mostrando el muñequito de error](link_o_ruta_de_tu_imagen_login.jpg)
+
 
 ---
 
 ## 🎥 Video Demostrativo (Pitch Promocional)
 
-**[ Haz clic aquí para ver el video promocional de 60 segundos ](PEGA_AQUÍ_EL_LINK_DE_YOUTUBE_O_DRIVE)**
+
 
 **Guion/Resumen del video:**
 *   *0:00 - 0:10:* Presentación del problema (Usuarios frustrados por formularios que no les dicen en qué se equivocaron).
