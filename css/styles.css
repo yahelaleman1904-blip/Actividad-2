@@ -11,3 +11,61 @@ small { display: block; margin-top: 4px; font-size: 11px; color: #666; }
 .modal-contenido { background-color: #fff; margin: 15% auto; padding: 20px; border-radius: 8px; width: 80%; max-width: 400px; text-align: center; }
 .cerrar { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
 .cerrar:hover { color: black; }
+
+
+/* =========================================
+   Estilos para el Input de Contraseña y Ojo
+========================================= */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding-right: 40px; /* Deja espacio para que el texto no pise el ojito */
+    margin-top: 0; 
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    font-size: 1.2em;
+    user-select: none;
+}
+
+/* =========================================
+   Estilos para el Mensaje de Error (Muñequito)
+========================================= */
+.error-container {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    background-color: #f1f0f6; /* Color de fondo similar al globo de chat */
+    padding: 10px 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.error-img {
+    width: 60px; /* Tamaño del muñequito */
+    height: auto;
+    margin-right: 15px;
+    border-radius: 8px; /* Por si la imagen tiene esquinas cuadradas */
+}
+
+.error-bubble {
+    color: #a31c1c;
+    font-weight: bold;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+/* Borde rojo cuando hay error */
+.input-error {
+    border: 2px solid red !important;
+    outline: none;
+}
